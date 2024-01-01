@@ -38,6 +38,7 @@ const options = {
   StartBtn.addEventListener('click', () => {
     startCountDown();
     StartBtn.disabled = true; 
+    inputElement.disabled = true; 
   });
 
   function startCountDown() {
