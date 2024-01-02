@@ -4,6 +4,7 @@ import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
+import moment from 'moment';
 
 const inputElement = document.querySelector('#datetime-picker');
 const StartBtn = document.querySelector('button[type="button"');
@@ -13,13 +14,15 @@ const spanMinutes = document.querySelector('span[data-minutes]');
 const spanSeconds = document.querySelector('span[data-seconds]');
 
 
+
 const options = {
     enableTime: true,
     time_24hr: true,
     defaultDate: new Date(),
     minuteIncrement: 1,
+    dateFormat:'Y-m-d H:i:s',
     onClose(selectedDates) {
-     let userSelectedDate = selectedDates[0];
+    const userSelectedDate = selectedDates[0];
      if(userSelectedDate <= new Date()) {
        iziToast.error({
         title: 'Error',
@@ -28,12 +31,13 @@ const options = {
        StartBtn.disabled = true; 
      } else {
         StartBtn.disabled = false; 
-     } 
+     }
     },
   };
   
   flatpickr(inputElement, options); 
-
+  
+  StartBtn.disabled = true;  
 
   StartBtn.addEventListener('click', () => {
     startCountDown();
@@ -41,11 +45,16 @@ const options = {
     inputElement.disabled = true; 
   });
 
+  console.log(flatpickr.parseDate(inputElement.value));
+
   function startCountDown() {
+
     const countDownInterval = setInterval(() => {
-        let SelectedDate = flatpickr.parseDate(inputElement.value);
+        let selectedDate = flatpickr.parseDate(inputElement.value);
         const now = new Date();
-        const TimeDifference = SelectedDate - now; 
+        const TimeDifference = selectedDate - now; 
+
+        console.log(TimeDifference);
 
         if(TimeDifference <= 0) {
             clearInterval(countDownInterval);
@@ -59,6 +68,7 @@ const options = {
             updateTimer(days, hours, minutes, seconds); 
         }
     }, 1000)
+
   }
 
   function updateTimer (days, hours, minutes, seconds) {
