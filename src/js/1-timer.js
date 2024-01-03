@@ -4,7 +4,6 @@ import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
-import moment from 'moment';
 
 const inputElement = document.querySelector('#datetime-picker');
 const StartBtn = document.querySelector('button[type="button"');
@@ -45,12 +44,10 @@ const options = {
     inputElement.disabled = true; 
   });
 
-  console.log(flatpickr.parseDate(inputElement.value));
-
   function startCountDown() {
 
     const countDownInterval = setInterval(() => {
-        let selectedDate = flatpickr.parseDate(inputElement.value);
+        let selectedDate = new Date(inputElement.value);
         const now = new Date();
         const TimeDifference = selectedDate - now; 
 
